@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+:root {
+  --t-bg: #0a0b0d;
+  --t-panel: #0f1114;
+  --t-panel-2: #14171b;
+  --t-line: #22262c;
+  --t-line-soft: #1a1e23;
+  --t-text: #edebe6;
+  --t-muted: #8a8f98;
+  --t-faint: #555b64;
+  --t-accent: #2f5bff;
+  --t-accent-soft: rgba(47, 91, 255, 0.14);
+  --t-green: #22c55e;
+  --t-red: #f04452;
+  --t-yellow: #eab308;
+}
+
+@theme inline {
+  --color-background: var(--t-bg);
+  --color-foreground: var(--t-text);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  background: var(--t-bg);
+}
+
+body {
+  background: var(--t-bg);
+  color: var(--t-text);
+  font-family: var(--font-geist-sans), Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-mono,
+code,
+pre {
+  font-family: var(--font-geist-mono), "JetBrains Mono", ui-monospace, monospace;
+}
+
+::selection {
+  background: var(--t-accent);
+  color: white;
+}
+
+/* thin scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2a2f36 transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #2a2f36;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Swiss grid backdrop */
+.t-grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+.t-dot-bg {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.t-panel {
+  background: var(--t-panel);
+  border: 1px solid var(--t-line);
+}
+
+.t-label {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--t-muted);
+}
+
+.t-rule {
+  border-color: var(--t-line);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--t-accent);
+  outline-offset: 2px;
+}
