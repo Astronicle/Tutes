@@ -5,6 +5,7 @@ import { Check, X } from "lucide-react";
 import type { AlgorithmDef } from "@/lib/algorithms/types";
 import { useExecution } from "@/lib/useExecution";
 import CodePanel from "./CodePanel";
+import CallStackViz from "./CallStackViz";
 import Controls from "./Controls";
 import Timeline from "./Timeline";
 import { CallStack, VariableInspector, WhyPanel } from "./Panels";
@@ -112,8 +113,11 @@ export default function Playground({ algo }: { algo: AlgorithmDef }) {
     <div className="space-y-3">
       {/* desktop grid */}
       <div className="hidden gap-3 lg:grid lg:grid-cols-12">
-        <div className="lg:col-span-5">
+        <div className="flex flex-col lg:col-span-5">
           <CodePanel code={algo.code} line={s.line} phase={s.phase} />
+          <div className="mt-3 flex flex-1 flex-col">
+            <CallStackViz stack={s.stack} />
+          </div>
         </div>
         <div className="lg:col-span-7">
           <div className="t-panel min-h-[480px] p-5">
