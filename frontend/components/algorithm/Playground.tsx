@@ -9,9 +9,11 @@ import CallStackViz from "./CallStackViz";
 import Controls from "./Controls";
 import Timeline from "./Timeline";
 import { CallStack, VariableInspector, WhyPanel } from "./Panels";
+import ComplexityPanel from "./ComplexityPanel";
 import ArrayVisualizer from "../visualizations/ArrayVisualizer";
 import TreeVisualizer from "../visualizations/TreeVisualizer";
 import GraphVisualizer from "../visualizations/GraphVisualizer";
+import DPGridVisualizer from "../visualizations/DPGridVisualizer";
 
 function Viz({ algo, step }: { algo: AlgorithmDef; step: number }) {
   const s = algo.states[step];
@@ -40,6 +42,9 @@ function Viz({ algo, step }: { algo: AlgorithmDef; step: number }) {
   }
   if (algo.viz === "graph" && s.graph) {
     return <GraphVisualizer nodes={s.graph.nodes} edges={s.graph.edges} queue={s.graph.queue} />;
+  }
+  if (algo.viz === "dp-grid" && s.grid) {
+    return <DPGridVisualizer grid={s.grid} output={s.output} />;
   }
   return (
     <div>{s.array && <ArrayVisualizer cells={s.array} pointers={s.pointers} />}</div>
@@ -164,7 +169,7 @@ export default function Playground({ algo }: { algo: AlgorithmDef }) {
 
       <div className="grid gap-3 md:grid-cols-3">
         <VariableInspector state={s} />
-        <CallStack stack={s.stack} />
+        <ComplexityPanel time={algo.time} space={algo.space} />
         <WhyPanel state={s} />
       </div>
 

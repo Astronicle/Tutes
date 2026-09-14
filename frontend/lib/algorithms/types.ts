@@ -1,4 +1,4 @@
-export type VizKind = "backtrack" | "array" | "graph";
+export type VizKind = "backtrack" | "array" | "graph" | "dp-grid";
 
 export type TreeStatus = "pending" | "active" | "current" | "done" | "backtracked";
 
@@ -27,6 +27,22 @@ export interface GraphEdge {
   to: string;
 }
 
+export type DPGridCell = "idle" | "done" | "active" | "dep" | "path";
+
+export interface DPGrid {
+  /** row headers, e.g. ["∅","A","B",...] — length = rows */
+  rows: string[];
+  /** col headers — length = cols */
+  cols: string[];
+  /** cell values, rows × cols; null = not yet computed */
+  values: (number | string | null)[][];
+  states: DPGridCell[][];
+  /** recurrence decision per computed cell: where the value came from */
+  arrows: ("" | "↖" | "↑" | "←")[][];
+  /** label for the traceback readout, e.g. "LCS" or "TAKEN" */
+  resultLabel: string;
+}
+
 export interface ExecState {
   step: number;
   line: number;
@@ -45,6 +61,7 @@ export interface ExecState {
   array?: ArrayCellState[];
   pointers?: Record<string, number | null>;
   graph?: { nodes: GraphNodeState[]; edges: GraphEdge[]; queue: string[] };
+  grid?: DPGrid;
   output?: string[];
 }
 
