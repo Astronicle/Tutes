@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "TUTES — Learn how it runs",
   description: "Tutes turns algorithms into interactive systems. Read the code, execute it step by step, and watch the state change in real time.",
+  verification: {
+    google: "5TOtN-83tjjsUDpNPDUxBdUZedIaMhYPNtw-nd1F1rA",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
