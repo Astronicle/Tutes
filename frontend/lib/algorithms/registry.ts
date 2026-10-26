@@ -5,6 +5,9 @@ import { BFS_CODE, buildBfsStates } from "./bfs";
 import { CLIMB_CODE, buildClimbingStairsStates } from "./climbing-stairs";
 import { LCS_CODE, buildLcsStates } from "./lcs";
 import { KNAPSACK_CODE, buildKnapsackStates } from "./knapsack";
+import { QUICK_SORT_CODE, buildQuickSortStates } from "./quick-sort";
+import { DIJKSTRA_CODE, buildDijkstraStates } from "./dijkstra";
+import { COIN_CHANGE_CODE, buildCoinChangeStates } from "./coin-change";
 import type { AlgorithmDef } from "./types";
 
 let cache: Record<string, AlgorithmDef> | null = null;
@@ -237,6 +240,99 @@ export function getAlgorithms(): AlgorithmDef[] {
           options: ["Item i was taken", "Item i was skipped", "The table is wrong", "Capacity is exhausted"],
           answer: 1,
           explain: "An unchanged value across rows means item i contributed nothing — the optimum skipped it. Move up.",
+        },
+      ],
+    },
+    {
+      id: "quick-sort",
+      num: "10",
+      title: "QUICK SORT",
+      category: "SORTING",
+      time: "O(n log n)",
+      space: "O(log n)",
+      difficulty: "INTERMEDIATE",
+      tagline: "PIVOT → PARTITION → RECURSE",
+      idea: "ONE PASS PLACES THE PIVOT; EVERYTHING ELSE FOLLOWS.",
+      steps: ["Pick a pivot", "Partition: ≤ pivot left, > pivot right", "Pivot is now in its final spot", "Recurse on both sides"],
+      code: QUICK_SORT_CODE,
+      states: buildQuickSortStates(),
+      viz: "array",
+      challenges: [
+        {
+          q: "After partitioning [8,3,7,1,6] around pivot 6, where does 6 land?",
+          context: "The first partition pass completes.",
+          options: ["index 0", "index 1", "index 2", "index 4"],
+          answer: 2,
+          explain: "Values ≤ 6 (3, 1) go left, values > 6 (8, 7) go right, then 6 swaps into the boundary at index 2.",
+        },
+        {
+          q: "Why is quicksort O(n log n) on average but O(n²) worst case?",
+          context: "Pivot choice decides how balanced the split is.",
+          options: ["It always splits in half", "A bad pivot (e.g. min/max) makes one side empty, giving n levels", "Swap cost dominates", "Recursion depth is fixed"],
+          answer: 1,
+          explain: "Balanced pivots → log n levels × O(n) work. Degenerate pivots → n levels × O(n) work = O(n²).",
+        },
+      ],
+    },
+    {
+      id: "dijkstra",
+      num: "11",
+      title: "DIJKSTRA",
+      category: "GRAPHS",
+      time: "O((V+E) log V)",
+      space: "O(V)",
+      difficulty: "ADVANCED",
+      tagline: "EXTRACT MIN → RELAX → SETTLE",
+      idea: "ALWAYS EXPAND THE CLOSEST UNSETTLED NODE FIRST.",
+      steps: ["Seed dist[start]=0, others ∞", "Extract the closest unsettled node", "Relax its outgoing edges", "Repeat until the queue empties"],
+      code: DIJKSTRA_CODE,
+      states: buildDijkstraStates(),
+      viz: "graph",
+      challenges: [
+        {
+          q: "Why can Dijkstra settle a node and never revisit it?",
+          context: "A node is extracted with the minimum tentative distance.",
+          options: ["All edge weights are non-negative", "The queue is sorted", "Visited marks block it", "The graph is small"],
+          answer: 0,
+          explain: "With non-negative weights, any later path to a settled node can only be longer, so its extracted distance is final.",
+        },
+        {
+          q: "What happens if a node is already in the PQ and a shorter path to it is found?",
+          context: "Relaxation improves dist[v].",
+          options: ["Ignore it", "Update dist and re-push; the stale entry is skipped on extraction", "Remove the old entry first", "Restart the whole algorithm"],
+          answer: 1,
+          explain: "Push the improved entry; when the stale, larger entry is later popped, `d > dist[u]` causes it to be skipped.",
+        },
+      ],
+    },
+    {
+      id: "coin-change",
+      num: "12",
+      title: "COIN CHANGE",
+      category: "DYNAMIC PROGRAMMING",
+      time: "O(n·target)",
+      space: "O(n·target)",
+      difficulty: "INTERMEDIATE",
+      tagline: "SKIP → OR TAKE → REUSE",
+      idea: "EVERY AMOUNT IS A MINIMUM OVER THE COIN TYPES.",
+      steps: ["Seed dp[0][a]=∞, dp[i][0]=0", "If coin fits: min(skip, 1 + take)", "Else inherit from above", "Read dp[n][target]"],
+      code: COIN_CHANGE_CODE,
+      states: buildCoinChangeStates(),
+      viz: "dp-grid",
+      challenges: [
+        {
+          q: "Coins [1,3,4], target 6. Why is the answer 2 and not 3?",
+          context: "dp[3][6] holds the fewest coins.",
+          options: ["1+1+4", "3+3", "1+1+1+3", "4+4"],
+          answer: 1,
+          explain: "3¢ + 3¢ = 6¢ in two coins. The table finds min over (skip 4¢ → dp[2][6]=2) vs (take 4¢ → 1+dp[3][2]=3), so it keeps 2.",
+        },
+        {
+          q: "Why does 'take' read from the same row dp[i][a - coin] while 'skip' reads from dp[i-1][a]?",
+          context: "Unbounded vs 0/1 choice.",
+          options: ["Coins are reusable — same row", "The table is symmetric", "It saves memory", "The code requires it"],
+          answer: 0,
+          explain: "Taking a coin leaves the same coin types available for the remainder (same row). Skipping consumes nothing and moves to previous types (row above).",
         },
       ],
     },
