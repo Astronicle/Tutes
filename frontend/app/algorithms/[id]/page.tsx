@@ -33,6 +33,39 @@ export default async function AlgorithmPage({ params }: { params: Promise<{ id: 
 
       <section className="grid gap-10 border-b border-[#22262c] py-10 md:grid-cols-12">
         <div className="md:col-span-7">
+          <p className="t-label">What problem does it solve?</p>
+          <p className="mt-3 max-w-2xl text-base leading-7 text-[#c9cdd4]">{algo.problem.summary}</p>
+
+          <div className="mt-6 border border-[#22262c] bg-[#0a0b0d] p-4">
+            <p className="t-label">Worked example</p>
+            <div className="mt-3 grid gap-4 sm:grid-cols-2">
+              <div>
+                <p className="font-mono text-[10px] tracking-[0.16em] text-[#555b64]">INPUT</p>
+                <p className="mt-1 break-words font-mono text-[12px] leading-5 text-white">{algo.problem.example.input}</p>
+              </div>
+              <div>
+                <p className="font-mono text-[10px] tracking-[0.16em] text-[#555b64]">OUTPUT</p>
+                <p className="mt-1 break-words font-mono text-[12px] leading-5 text-[#22c55e]">{algo.problem.example.output}</p>
+              </div>
+            </div>
+            <ol className="mt-4 border-t border-[#22262c] pt-3">
+              {algo.problem.example.steps.map((s, i) => (
+                <li key={i} className="flex gap-3 py-1.5 text-sm leading-6 text-[#edebe6]">
+                  <span className="shrink-0 font-mono text-[11px] text-[#555b64]">{String(i + 1).padStart(2, "0")}</span>
+                  <span>{s}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+        <div className="md:col-span-5">
+          <p className="t-label">Why it works</p>
+          <p className="mt-3 text-sm leading-7 text-[#a7adb6]">{algo.problem.why}</p>
+        </div>
+      </section>
+
+      <section className="grid gap-10 border-b border-[#22262c] py-10 md:grid-cols-12">
+        <div className="md:col-span-7">
           <p className="t-label">The idea</p>
           <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">{algo.idea}</h2>
         </div>

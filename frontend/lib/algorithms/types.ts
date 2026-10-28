@@ -60,9 +60,27 @@ export interface ExecState {
   tree?: TreeNodeState[];
   array?: ArrayCellState[];
   pointers?: Record<string, number | null>;
-  graph?: { nodes: GraphNodeState[]; edges: GraphEdge[]; queue: string[] };
+  graph?: { nodes: GraphNodeState[]; edges: GraphEdge[]; queue: string[]; queueLabel?: string };
   grid?: DPGrid;
   output?: string[];
+}
+
+export interface WorkedExample {
+  /** the concrete input, written as code would receive it */
+  input: string;
+  /** the expected answer for that input */
+  output: string;
+  /** a short, numbered walkthrough of how the answer is produced */
+  steps: string[];
+}
+
+export interface ProblemBrief {
+  /** plain-language statement of the problem this algorithm solves */
+  summary: string;
+  /** one fully worked example from input to output */
+  example: WorkedExample;
+  /** why the algorithm is correct, in plain language */
+  why: string;
 }
 
 export interface AlgorithmDef {
@@ -76,6 +94,7 @@ export interface AlgorithmDef {
   tagline: string;
   idea: string;
   steps: string[];
+  problem: ProblemBrief;
   code: string[];
   states: ExecState[];
   viz: VizKind;

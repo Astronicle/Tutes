@@ -30,10 +30,12 @@ export default function GraphVisualizer({
   nodes,
   edges,
   queue,
+  queueLabel = "QUEUE",
 }: {
   nodes: N[];
   edges: E[];
   queue: string[];
+  queueLabel?: string;
 }) {
   const P = (n: N) => ({ x: (n.x / 100) * 600 + 20, y: (n.y / 100) * 260 + 20 });
   const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
@@ -71,7 +73,7 @@ export default function GraphVisualizer({
         })}
       </svg>
       <div className="mt-2 border border-[#22262c] bg-[#0a0b0d] p-2 font-mono text-[11px] text-[#8a8f98]">
-        QUEUE <span className="text-white">[{queue.join(", ") || "∅"}]</span>
+        {queueLabel} <span className="text-white">[{queue.join(", ") || "∅"}]</span>
       </div>
     </div>
   );

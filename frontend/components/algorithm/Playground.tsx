@@ -41,7 +41,9 @@ function Viz({ algo, step }: { algo: AlgorithmDef; step: number }) {
     );
   }
   if (algo.viz === "graph" && s.graph) {
-    return <GraphVisualizer nodes={s.graph.nodes} edges={s.graph.edges} queue={s.graph.queue} />;
+    return (
+      <GraphVisualizer nodes={s.graph.nodes} edges={s.graph.edges} queue={s.graph.queue} queueLabel={s.graph.queueLabel} />
+    );
   }
   if (algo.viz === "dp-grid" && s.grid) {
     return <DPGridVisualizer grid={s.grid} output={s.output} />;
